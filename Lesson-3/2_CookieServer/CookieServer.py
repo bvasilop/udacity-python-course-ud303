@@ -40,7 +40,9 @@ class NameHandler(BaseHTTPRequestHandler):
 
         # Create cookie.
         c = cookies.SimpleCookie()
-
+        c["yourname"] = yourname
+        c["yourname"]["max-age"] = 60
+        c["yourname"]["domain"] = "localhost"
         # 1. Set the fields of the cookie.
         #    Give the cookie a value from the 'yourname' variable,
         #    a domain (localhost), and a max-age.
@@ -59,7 +61,9 @@ class NameHandler(BaseHTTPRequestHandler):
         if 'cookie' in self.headers:
             try:
                 # 2. Extract and decode the cookie.
+                c = cookies.SimpleCookie(self.headers['cookie'])
                 #    Get the cookie from the headers and extract its value
+                name = c['yourname'].value
                 #    into a variable called 'name'.
 
                 # Craft a message, escaping any HTML special chars in name.
